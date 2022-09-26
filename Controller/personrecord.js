@@ -1,13 +1,22 @@
 let PersonRecord = require('../Model/person')
+const prompt = require('prompt-sync')();
+
 class Person {
     constructor() {
 
     }
     add() {
+        var commandfood = []
+        var size = 3
+        const commandname = prompt('Enter Your Name');
+        const commandage = prompt('Enter Your age');
+        for (var i = 0; i < size; i++) {
+            commandfood[i] = prompt('Enter Your Food');
+        }
         let msg = new PersonRecord({
-            name: 'Yasser',
-            age: 29,
-            favoriteFoods: ['Pizza', 'Shrimp', 'Salad']
+            name: commandname,
+            age: commandage,
+            favoriteFoods: commandfood
         })
         msg.save().then(doc => {
             console.log(doc)
@@ -16,10 +25,17 @@ class Person {
         })
     }
     async createmany() {
+        var commandfood = []
+        var size = 3
+        const commandname = prompt('Enter Your Name');
+        const commandage = prompt('Enter Your age');
+        for (var i = 0; i < size; i++) {
+            commandfood[i] = prompt('Enter Your Food');
+        }
         await PersonRecord.create([
-            { name: 'Mary', age: 18, favoriteFoods: ['Fruit', 'Rice', 'Burritos'] },
-            { name: 'Adam', age: 30, favoriteFoods: ['Burritos', 'Shrimp', 'Salad'] },
-            { name: 'Omar', age: 30, favoriteFoods: ['Pizza', 'Burritos', 'Salad'] }
+            { name: commandname, age: commandage, favoriteFoods: commandfood },
+            { name: commandname, age: commandage, favoriteFoods: commandfood },
+            { name: commandname, age: commandage, favoriteFoods: commandfood }
         ]).then(doc => {
             console.log(doc)
         }).catch(err => {
@@ -28,8 +44,9 @@ class Person {
     }
 
     findAll() {
+        const commandname = prompt('Enter Name You Want To Search For :');
         PersonRecord.find({
-            name: "Yousef"
+            name: commandname
         }).then(doc => {
             console.log(doc)
         }).catch(err => {
@@ -39,8 +56,9 @@ class Person {
     }
 
     findOne() {
+        const commandfood = prompt('Enter Food You Want To Search For :')
         PersonRecord.findOne({
-            favoriteFoods: ['Pizza', 'Burritos', 'Salad']
+            favoriteFoods: commandfood
         }).then(doc => {
             console.log(doc)
         }).catch(err => {
@@ -49,8 +67,9 @@ class Person {
     }
 
     findbyID() {
+        const commandId = prompt('Enter ID : ')
         PersonRecord.findById({
-            _id: '6330e4209046932f96755220'
+            _id: commandId
         }).then(doc => {
             console.log(doc)
         }).catch(err => {
@@ -59,10 +78,12 @@ class Person {
     }
 
     classicUpdate() {
+        const commandId = prompt('Enter ID : ')
+        const commandfood = prompt('Add Food :')
         PersonRecord.findById({
-            _id: '6330e4209046932f96755220'
+            _id: commandId
         }).update({
-            $push: { favoriteFoods: "Fruits" }
+            $push: { favoriteFoods: commandfood }
         }).then(doc => {
             console.log(doc)
         }).catch(err => {
@@ -70,10 +91,12 @@ class Person {
         })
     }
     findOneUpdate() {
+        const commandname = prompt('Enter Name You Want To Search For : ')
+        const commandage = prompt('Enter The New Age : ')
         PersonRecord.findOneAndUpdate({
-            name: "Ali"
+            name: commandname
         }, {
-            age: 20
+            age: commandage
         }, {
             new: true
         }).then(doc => {
@@ -83,8 +106,9 @@ class Person {
         })
     }
     findOneDelete() {
+        const commandId = prompt('Enter ID  You Want To Remove: ')
         PersonRecord.findByIdAndRemove({
-            _id: '6331ec83140864a5100eb8d4'
+            _id: commandId
         }).then(() => {
             console.log("Query Deleted Successfully")
         }).catch(err => {
@@ -93,8 +117,9 @@ class Person {
     }
 
     DeleteAll() {
+        const commandname = prompt('Enter Name You Want To Delete : ')
         PersonRecord.remove({
-            name: 'Mary'
+            name: commandname
         }).then(count => {
             console.log(count)
 
@@ -104,8 +129,9 @@ class Person {
     }
 
     ChainSearch() {
+        const commandfood = prompt('Enter Food You Want To Search For :')
         PersonRecord.find({
-                favoriteFoods: 'Burritos'
+                favoriteFoods: commandfood
             }).sort({ name: 1 })
             .limit(2)
             .select({ name: true })
